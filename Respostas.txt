@@ -1,0 +1,42 @@
+-- 1
+SELECT nome, especialidade
+FROM medico
+-- 2
+SELECT p.nome, CONCAT(p.rua, ',', p.numero, ',', p.bairro) AS endereco, p.telefone, s.nome
+FROM paciente AS p
+INNER JOIN plano_saude AS s ON s.codigo = p.plano
+-- 3
+SELECT s.telefone AS 'telefone do plano de saúde'
+FROM paciente AS p
+INNER JOIN plano_saude AS s ON s.codigo = p.plano
+WHERE p.nome = 'Ana Julia'
+-- 4
+SELECT * 
+FROM plano_saude 
+LEFT JOIN paciente ON paciente.plano = plano_saude.codigo
+Where paciente.nome IS NULL
+-- 5
+SELECT *
+FROM plano_saude AS ps
+LEFT JOIN medico AS m ON m.plano = ps.codigo
+WHERE m.codigo IS NULL
+-- 6
+SELECT c.datahora, m.nome AS 'nome Medico', p.nome AS 'nome Paciente', c.diagnostico
+FROM consulta AS c
+INNER JOIN medico AS m ON c.medico = m.codigo
+INNER JOIN paciente AS p ON c.paciente = p.cpf
+-- 7
+SELECT m.nome AS 'Nome do Médico', c.datahora, c.diagnostico
+FROM consulta AS c
+INNER JOIN medico AS m ON c.medico = m.codigo
+INNER JOIN paciente AS p ON c.paciente = p.cpf
+WHERE p.nome = 'José Lima'
+-- 8
+SELECT c.diagnostico, COUNT(*) AS qtd
+FROM consulta AS c
+GROUP BY diagnostico
+-- 9
+SELECT COUNT(ps.codigo) AS 'quant de planos'
+FROM plano_saude AS ps
+LEFT JOIN paciente AS p ON p.plano = ps.codigo
+WHERE p.cpf IS NULL
